@@ -29,15 +29,15 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    const supabase = window.supabase.createClient(
-      'https://nigarihewuqwahanxyxp.supabase.co',
-      'sb_publishable_8fx8zXBbMhz-9UtDp0iUOA_neN3cpIq'
-    );
+    const supabaseClient = window.supabase.createClient(
+  'https://nigarihewuqwahanxyxp.supabase.co',
+  'sb_publishable_8fx8zXBbMhz-9UtDp0iUOA_neN3cpIq'
+);
 
-    document.getElementById('formCurriculo').addEventListener('submit', async (e) => {
-      e.preventDefault();
+document.getElementById('formCurriculo').addEventListener('submit', async (e) => {
+  e.preventDefault();
 
-      const { error } = await supabase.from('curriculos').insert({
+  const { error } = await supabaseClient.from('curriculos').insert({
         nome: document.getElementById('nome').value,
         email: document.getElementById('email').value,
         telefone: document.getElementById('telefone').value,
