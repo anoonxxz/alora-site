@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Alora - Pesquisar Currículos</title>
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+
+  <nav class="navbar">
+    <span class="logo">Alora</span>
+  </nav>
+
+  <div class="conteudo">
+    <a href="index.html" class="voltar">← Voltar</a>
+
+    <h1>Pesquisar Currículos</h1>
+
+    <div class="card">
+      <h2>Banco de currículos</h2>
+      <p class="descricao">Pesquise por nome, e-mail ou qualificações para encontrar candidatos.</p>
+
+      <div class="busca">
+        <input type="text" id="campoBusca" placeholder="Buscar por nome, e-mail ou qualificação...">
+        <button id="botaoBuscar">Buscar</button>
+      </div>
+
+      <p id="mensagemBusca"></p>
+
+      <div id="listaCurriculos"></div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const supabaseClient = window.supabase.createClient(
+      'https://nigarihewuqwahanxyxp.supabase.co',
+      'sb_publishable_8fx8zXBbMhz-9UtDp0iUOA_neN3cpIq'
+    );
+
+    const listaCurriculos = document.getElementById('listaCurriculos');
+    const mensagemBusca = document.getElementById('mensagemBusca');
+
+    function renderizarCurriculos(curriculos) {
+      listaCurriculos.innerHTML = '';
+
+      if (curriculos.length === 0) {
+        mensagemBusca.textContent = 'Nenhum currículo encontrado.';
+        return;
+      }
+
+      mensagemBusca.textContent = '';
+
+      curriculos.forEach((c) => {
+        const item = document.createElement('div');
+        item.className = 'item-curriculo';
+        item.innerHTML = `
+          <h3>${c.nome}</h3>
+          <p><strong>E-mail:</strong> ${c.email}</p>
+          <p><strong>Telefone:</strong> ${c.telefone}</p>
+          <p><strong>Qualificações:</strong> ${c.qualificacoes}</p>
+          <p><strong>Experiências:</strong> ${c.experiencias}</p>
+        `;
+        listaCurriculos.appendChild(item);
+      });
+    }
+
+    async function carregarTodos() {
+      const { data, error } = await supabaseClient.from('curriculos').select('*');
+      if (error) {
+        mensagemBusca.textContent = 'Erro ao carregar currículos.';
+        return;
+      }
+      renderizarCurriculos(data);
+    }
+
+    async function buscarCurriculos() {
+      const termo = document.getElementById('campoBusca').value.trim();
+
+      if (termo === '') {
+        carregarTodos();
+        return;
+      }
+
+      const { data, error } = await supabaseClient
+        .from('curriculos')
+        .select('*')
+        .or(`nome.ilike.%${termo}%,email.ilike.%${termo}%,qualificacoes.ilike.%${termo}%`);
+
+      if (error) {
+        mensagemBusca.textContent = 'Erro ao buscar currículos.';
+        return;
+      }
+      renderizarCurriculos(data);
+    }
+
+    document.getElementById('botaoBuscar').addEventListener('click', buscarCurriculos);
+    document.getElementById('campoBusca').addEventListener('keyup', (e) => {
+      if (e.key === 'Enter') buscarCurriculos();
+    });
+
+    carregarTodos();
+  </script>
+
+</body>
+</html>
