@@ -123,7 +123,11 @@
           return;
         }
 
-        const nomeArquivo = `${Date.now()}_${file.name}`;
+        const nomeSanitizado = file.name
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .replace(/[^a-zA-Z0-9._-]/g, '_');
+        const nomeArquivo = `${Date.now()}_${nomeSanitizado}`;
         const { error: uploadError } = await supabaseClient.storage
           .from('curriculos-arquivos')
           .upload(nomeArquivo, file);
