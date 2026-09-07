@@ -118,3 +118,58 @@ button:hover {
   color: #2952e3;
   text-decoration: underline;
 }
+
+.busca {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.busca input {
+  flex: 1;
+  padding: 12px 14px;
+  border: 1px solid #d8dfef;
+  border-radius: 10px;
+  font-size: 14px;
+  background: #f8f9fd;
+}
+
+.busca button {
+  background: #2952e3;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 999px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.busca button:hover {
+  background: #1e3a8a;
+}
+
+.item-curriculo {
+  border: 1px solid #eef1f8;
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 14px;
+  background: #fbfcfe;
+}
+
+.item-curriculo h3 {
+  margin: 0 0 8px;
+  color: #1e3a8a;
+  font-size: 16px;
+}
+
+.item-curriculo p {
+  margin: 4px 0;
+  font-size: 13px;
+  color: #475569;
+}
+
+#mensagemBusca {
+  text-align: center;
+  color: #64748b;
+  font-size: 14px;
+}
