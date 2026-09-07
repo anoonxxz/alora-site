@@ -2,13 +2,19 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>Alora - Cadastro de Currículo</title>
+  <title>Alora - Gerenciamento de Currículo</title>
   <link rel="stylesheet" href="estilo.css">
 </head>
 <body>
 
   <nav class="navbar">
     <span class="logo">Alora</span>
+    <div class="nav-links">
+      <a href="#">🏠 Página Inicial</a>
+      <a href="pesquisar-curriculos.html">🔍 Buscar Vagas</a>
+      <a href="#">✉️ Candidaturas</a>
+      <a href="#" class="botao-nav">Meu Currículo</a>
+    </div>
   </nav>
 
   <div class="conteudo">
@@ -17,10 +23,15 @@
     <h1>Gerenciamento de Currículo</h1>
 
     <div class="card">
-      <h2>Cadastre seu currículo</h2>
-      <p class="descricao">Preencha seus dados abaixo. Assim, você poderá utilizá-lo facilmente em futuras candidaturas.</p>
+      <h2>Hospede seu currículo</h2>
+      <p class="descricao">Envie seu currículo uma vez e mantenha-o salvo na plataforma. Assim, você poderá utilizá-lo facilmente em futuras candidaturas.</p>
 
       <form id="formCurriculo">
+        <label class="anexar-label" for="arquivoCurriculo">📎 Anexar currículo</label>
+        <input type="file" id="arquivoCurriculo" accept=".doc,.docx,.pdf" hidden>
+        <span id="nomeArquivo" class="nome-arquivo">Nenhum arquivo selecionado</span>
+        <p class="aviso-arquivo">DOC, DOCX, PDF (7MB)</p>
+
         <label for="nome">Nome completo</label>
         <input type="text" id="nome" required>
 
@@ -43,7 +54,7 @@
 
       <div class="privacidade">
         🔒 <strong>Sua privacidade é importante.</strong><br>
-        Seus dados são armazenados com segurança, conforme a LGPD.
+        Incluímos uma cópia do seu perfil completo durante a candidatura.
         <a href="#">Saiba o que fazemos com o seu currículo.</a>
       </div>
     </div>
@@ -56,18 +67,56 @@
       'sb_publishable_8fx8zXBbMhz-9UtDp0iUOA_neN3cpIq'
     );
 
+    const inputArquivo = document.getElementById('arquivoCurriculo');
+    const nomeArquivoSpan = document.getElementById('nomeArquivo');
+
+    inputArquivo.addEventListener('change', () => {
+      nomeArquivoSpan.textContent = inputArquivo.files[0]
+        ? inputArquivo.files[0].name
+        : 'Nenhum arquivo selecionado';
+    });
+
     document.getElementById('formCurriculo').addEventListener('submit', async (e) => {
       e.preventDefault();
+      const mensagem = document.getElementById('mensagem');
+      mensagem.textContent = 'Enviando...';
+
+      let arquivoUrl = null;
+      const file = inputArquivo.files[0];
+
+      if (file) {
+        if (file.size > 7 * 1024 * 1024) {
+          mensagem.textContent = 'Arquivo muito grande. Limite de 7MB.';
+          return;
+        }
+
+        const nomeArquivo = `${Date.now()}_${file.name}`;
+        const { error: uploadError } = await supabaseClient.storage
+          .from('curriculos-arquivos')
+          .upload(nomeArquivo, file);
+
+        if (uploadError) {
+          mensagem.textContent = 'Erro ao enviar o arquivo.';
+          return;
+        }
+
+        const { data: urlData } = supabaseClient.storage
+          .from('curriculos-arquivos')
+          .getPublicUrl(nomeArquivo);
+
+        arquivoUrl = urlData.publicUrl;
+      }
 
       const { error } = await supabaseClient.from('curriculos').insert({
         nome: document.getElementById('nome').value,
         email: document.getElementById('email').value,
         telefone: document.getElementById('telefone').value,
         qualificacoes: document.getElementById('qualificacoes').value,
-        experiencias: document.getElementById('experiencias').value
+        experiencias: document.getElementById('experiencias').value,
+        arquivo_url: arquivoUrl
       });
 
-      document.getElementById('mensagem').textContent = error
+      mensagem.textContent = error
         ? 'Erro ao enviar. Tente novamente.'
         : 'Currículo enviado com sucesso!';
     });

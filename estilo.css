@@ -173,3 +173,59 @@ button:hover {
   color: #64748b;
   font-size: 14px;
 }
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.botao-nav {
+  background: white;
+  color: #2952e3 !important;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-weight: 700 !important;
+}
+
+.anexar-label {
+  display: inline-block;
+  background: #2952e3;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  width: fit-content;
+}
+
+.anexar-label:hover {
+  background: #1e3a8a;
+}
+
+.nome-arquivo {
+  display: block;
+  margin-top: 8px;
+  font-size: 13px;
+  color: #475569;
+}
+
+.aviso-arquivo {
+  font-size: 12px;
+  color: #94a3b8;
+  margin: 4px 0 10px;
+}
