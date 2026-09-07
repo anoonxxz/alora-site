@@ -1,45 +1,86 @@
+* { box-sizing: border-box; }
+
 body {
   font-family: 'Segoe UI', Arial, sans-serif;
   background: #f4f6fb;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
   margin: 0;
+  color: #1e293b;
+}
+
+.navbar {
+  background: #2952e3;
+  padding: 18px 40px;
+}
+
+.navbar .logo {
+  color: white;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.conteudo {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.voltar {
+  color: #2952e3;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+h1 {
+  color: #1e3a8a;
+  font-size: 26px;
+  margin: 16px 0 24px;
+}
+
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 8px 24px rgba(30, 58, 138, 0.08);
+}
+
+.card h2 {
+  color: #1e3a8a;
+  font-size: 18px;
+  margin-top: 0;
+}
+
+.descricao {
+  color: #64748b;
+  font-size: 14px;
+  margin-bottom: 24px;
 }
 
 form {
-  background: #ffffff;
-  padding: 40px;
-  border-radius: 16px;
-  box-shadow: 0 8px 24px rgba(30, 58, 138, 0.12);
-  width: 100%;
-  max-width: 480px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 14px;
 }
 
 label {
-  font-size: 14px;
-  color: #1e3a8a;
+  font-size: 13px;
   font-weight: 600;
-  margin-bottom: -8px;
+  color: #1e3a8a;
+  margin-bottom: -6px;
 }
 
 input, textarea {
-  padding: 14px 16px;
+  padding: 12px 14px;
   border: 1px solid #d8dfef;
   border-radius: 10px;
-  font-size: 15px;
+  font-size: 14px;
   background: #f8f9fd;
-  color: #1e293b;
 }
 
 input:focus, textarea:focus {
   outline: none;
   border-color: #2952e3;
-  background: #ffffff;
+  background: white;
 }
 
 button {
@@ -47,11 +88,11 @@ button {
   color: white;
   border: none;
   padding: 14px;
-  border-radius: 10px;
-  font-size: 16px;
+  border-radius: 999px;
+  font-size: 15px;
   font-weight: 600;
   cursor: pointer;
-  margin-top: 8px;
+  margin-top: 10px;
 }
 
 button:hover {
@@ -60,6 +101,20 @@ button:hover {
 
 #mensagem {
   text-align: center;
-  color: #2952e3;
   font-weight: 500;
+  color: #2952e3;
+}
+
+.privacidade {
+  margin-top: 28px;
+  font-size: 12px;
+  color: #64748b;
+  border-top: 1px solid #eef1f8;
+  padding-top: 16px;
+  line-height: 1.6;
+}
+
+.privacidade a {
+  color: #2952e3;
+  text-decoration: underline;
 }

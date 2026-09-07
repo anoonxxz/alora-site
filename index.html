@@ -1,44 +1,65 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <link rel="stylesheet" href="estilo.css">
   <meta charset="UTF-8">
   <title>Alora - Cadastro de Currículo</title>
+  <link rel="stylesheet" href="estilo.css">
 </head>
 <body>
 
-  <form id="formCurriculo">
-    <label for="nome">Nome completo</label>
-    <input type="text" id="nome" required>
+  <nav class="navbar">
+    <span class="logo">Alora</span>
+  </nav>
 
-    <label for="email">E-mail</label>
-    <input type="email" id="email" required>
+  <div class="conteudo">
+    <a href="#" class="voltar">← Voltar</a>
 
-    <label for="telefone">Telefone</label>
-    <input type="tel" id="telefone" required>
+    <h1>Gerenciamento de Currículo</h1>
 
-    <label for="qualificacoes">Qualificações</label>
-    <textarea id="qualificacoes" required></textarea>
+    <div class="card">
+      <h2>Cadastre seu currículo</h2>
+      <p class="descricao">Preencha seus dados abaixo. Assim, você poderá utilizá-lo facilmente em futuras candidaturas.</p>
 
-    <label for="experiencias">Experiências de trabalho</label>
-    <textarea id="experiencias" required></textarea>
+      <form id="formCurriculo">
+        <label for="nome">Nome completo</label>
+        <input type="text" id="nome" required>
 
-    <button type="submit">Enviar currículo</button>
-  </form>
+        <label for="email">E-mail</label>
+        <input type="email" id="email" required>
 
-  <p id="mensagem"></p>
+        <label for="telefone">Telefone</label>
+        <input type="tel" id="telefone" required>
+
+        <label for="qualificacoes">Qualificações</label>
+        <textarea id="qualificacoes" required></textarea>
+
+        <label for="experiencias">Experiências de trabalho</label>
+        <textarea id="experiencias" required></textarea>
+
+        <button type="submit">Enviar currículo</button>
+      </form>
+
+      <p id="mensagem"></p>
+
+      <div class="privacidade">
+        🔒 <strong>Sua privacidade é importante.</strong><br>
+        Seus dados são armazenados com segurança, conforme a LGPD.
+        <a href="#">Saiba o que fazemos com o seu currículo.</a>
+      </div>
+    </div>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     const supabaseClient = window.supabase.createClient(
-  'https://nigarihewuqwahanxyxp.supabase.co',
-  'sb_publishable_8fx8zXBbMhz-9UtDp0iUOA_neN3cpIq'
-);
+      'https://nigarihewuqwahanxyxp.supabase.co',
+      'sb_publishable_8fx8zXBbMhz-9UtDp0iUOA_neN3cpIq'
+    );
 
-document.getElementById('formCurriculo').addEventListener('submit', async (e) => {
-  e.preventDefault();
+    document.getElementById('formCurriculo').addEventListener('submit', async (e) => {
+      e.preventDefault();
 
-  const { error } = await supabaseClient.from('curriculos').insert({
+      const { error } = await supabaseClient.from('curriculos').insert({
         nome: document.getElementById('nome').value,
         email: document.getElementById('email').value,
         telefone: document.getElementById('telefone').value,
