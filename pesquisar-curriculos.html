@@ -46,24 +46,25 @@
 
       if (curriculos.length === 0) {
         mensagemBusca.textContent = 'Nenhum currículo encontrado.';
-        return;
-      }
-
-      mensagemBusca.textContent = '';
-
-      curriculos.forEach((c) => {
-        const item = document.createElement('div');
-        item.className = 'item-curriculo';
-        item.innerHTML = `
-          <h3>${c.nome}</h3>
-          <p><strong>E-mail:</strong> ${c.email}</p>
-          <p><strong>Telefone:</strong> ${c.telefone}</p>
-          <p><strong>Qualificações:</strong> ${c.qualificacoes}</p>
-          <p><strong>Experiências:</strong> ${c.experiencias}</p>
-        `;
-        listaCurriculos.appendChild(item);
-      });
+      return;
     }
+
+    mensagemBusca.textContent = '';
+
+    curriculos.forEach((c) => {
+    const item = document.createElement('div');
+      item.className = 'item-curriculo';
+      item.innerHTML = `
+        <h3>${c.nome}</h3>
+        <p><strong>E-mail:</strong> ${c.email}</p>
+        <p><strong>Telefone:</strong> ${c.telefone || 'Não informado'}</p>
+        <p><strong>Qualificações:</strong> ${c.qualificacoes || 'Não informado'}</p>
+        <p><strong>Experiências:</strong> ${c.experiencias || 'Não informado'}</p>
+        ${c.arquivo_url ? `<a href="${c.arquivo_url}" target="_blank" class="link-arquivo">📎 Ver currículo anexado</a>` : ''}
+      `;
+      listaCurriculos.appendChild(item);
+    });
+  }
 
     async function carregarTodos() {
       const { data, error } = await supabaseClient.from('curriculos').select('*');

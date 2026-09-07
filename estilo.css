@@ -229,3 +229,16 @@ button:hover {
   color: #94a3b8;
   margin: 4px 0 10px;
 }
+
+.link-arquivo {
+  display: inline-block;
+  margin-top: 8px;
+  color: #2952e3;
+  font-weight: 600;
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.link-arquivo:hover {
+  text-decoration: underline;
+}
