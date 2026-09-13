@@ -1,0 +1,27 @@
+{
+  "name": "alora-site",
+  "version": "1.0.0",
+  "description": "Alora — sistema de gerenciamento de currículos e vagas",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anoonxxz/alora-site.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/anoonxxz/alora-site/issues"
+  },
+  "homepage": "https://github.com/anoonxxz/alora-site#readme",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.116.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1"
+  }
+}
