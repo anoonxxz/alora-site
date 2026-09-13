@@ -18,6 +18,15 @@ body {
   font-weight: 800;
 }
 
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+}
+
 .conteudo {
   max-width: 600px;
   margin: 40px auto;
@@ -244,21 +253,28 @@ button:hover {
 }
 
 @media (max-width: 768px) {
-  .navbar {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
+    .navbar {
+    flex-wrap: wrap;
     padding: 16px 20px;
+    position: relative;
+  }
+
+  .menu-toggle {
+    display: block;
   }
 
   .nav-links {
-    flex-wrap: wrap;
-    gap: 14px;
+    max-height: 0;
+    overflow: hidden;
     width: 100%;
+    flex-direction: column;
+    gap: 14px;
+    transition: max-height 0.3s ease;
   }
 
-  .nav-links a {
-    font-size: 13px;
+  .nav-links.aberto {
+    max-height: 300px;
+    margin-top: 16px;
   }
 
   .conteudo {
