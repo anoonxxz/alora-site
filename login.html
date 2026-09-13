@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Alora - Login</title>
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+
+  <nav class="navbar">
+    <span class="logo">Alora</span>
+  </nav>
+
+  <div class="conteudo">
+    <h1>Login — Diretoria/Administrador</h1>
+
+    <div class="card">
+      <p class="descricao">Acesso restrito à pesquisa de currículos.</p>
+
+      <form id="formLogin">
+        <label for="email">E-mail</label>
+        <input type="email" id="email" required>
+
+        <label for="senha">Senha</label>
+        <input type="password" id="senha" required>
+
+        <button type="submit">Entrar</button>
+      </form>
+
+      <p id="mensagemLogin"></p>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const supabaseClient = window.supabase.createClient(
+      'https://nigarihewuqwahanxyxp.supabase.co',
+      'sb_publishable_8fx8zXBbMhz-9UtDp0iUOA_neN3cpIq'
+    );
+
+    document.getElementById('formLogin').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const mensagem = document.getElementById('mensagemLogin');
+      mensagem.textContent = 'Entrando...';
+
+      const { error } = await supabaseClient.auth.signInWithPassword({
+        email: document.getElementById('email').value,
+        password: document.getElementById('senha').value
+      });
+
+      if (error) {
+        mensagem.textContent = 'E-mail ou senha inválidos.';
+        return;
+      }
+
+      window.location.href = 'pesquisar-curriculos.html';
+    });
+  </script>
+
+</body>
+</html>
