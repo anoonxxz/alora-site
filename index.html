@@ -61,103 +61,104 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script>
-    const supabaseClient = window.supabase.createClient(
-      'https://nigarihewuqwahanxyxp.supabase.co',
-      'sb_publishable_8fx8zXBbMhz-9UtDp0iUOA_neN3cpIq'
-    );
+<script>
+  const supabaseClient = window.supabase.createClient(
+    'https://nigarihewuqwahanxyxp.supabase.co',
+    'sb_publishable_8fx8zXBbMhz-9UtDp0iUOA_neN3cpIq'
+  );
 
-    const inputArquivo = document.getElementById('arquivoCurriculo');
-    const nomeArquivoSpan = document.getElementById('nomeArquivo');
-    const botaoEnviar = document.getElementById('botaoEnviar');
+  const inputArquivo = document.getElementById('arquivoCurriculo');
+  const nomeArquivoSpan = document.getElementById('nomeArquivo');
+  const botaoEnviar = document.getElementById('botaoEnviar');
 
-    const campos = {
-      nome: document.getElementById('nome'),
-      email: document.getElementById('email'),
-      telefone: document.getElementById('telefone'),
-      qualificacoes: document.getElementById('qualificacoes'),
-      experiencias: document.getElementById('experiencias')
-    };
+  const campos = {
+    nome: document.getElementById('nome'),
+    email: document.getElementById('email'),
+    telefone: document.getElementById('telefone'),
+    qualificacoes: document.getElementById('qualificacoes'),
+    experiencias: document.getElementById('experiencias')
+  };
 
-    function verificarCompletude() {
-      const temArquivo = inputArquivo.files.length > 0;
-      const nomePreenchido = campos.nome.value.trim() !== '';
-      const emailPreenchido = campos.email.value.trim() !== '';
+  function verificarCompletude() {
+    const temArquivo = inputArquivo.files.length > 0;
+    const nomePreenchido = campos.nome.value.trim() !== '';
+    const emailPreenchido = campos.email.value.trim() !== '';
 
-      let completo;
+    let completo;
+    if (temArquivo) {
+      completo = nomePreenchido && emailPreenchido;
+    } else {
+      completo = nomePreenchido && emailPreenchido &&
+        campos.telefone.value.trim() !== '' &&
+        campos.qualificacoes.value.trim() !== '' &&
+        campos.experiencias.value.trim() !== '';
+    }
+    botaoEnviar.style.display = completo ? 'inline-block' : 'none';
+  }
 
-      if (temArquivo) {
-        completo = nomePreenchido && emailPreenchido;
-      } else {
-        completo = nomePreenchido && emailPreenchido &&
-          campos.telefone.value.trim() !== '' &&
-          campos.qualificacoes.value.trim() !== '' &&
-          campos.experiencias.value.trim() !== '';
+  inputArquivo.addEventListener('change', () => {
+    nomeArquivoSpan.textContent = inputArquivo.files[0]
+      ? inputArquivo.files[0].name
+      : 'Nenhum arquivo selecionado';
+    verificarCompletude();
+  });
+
+  Object.values(campos).forEach((campo) => {
+    campo.addEventListener('input', verificarCompletude);
+  });
+
+  document.getElementById('formCurriculo').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const mensagem = document.getElementById('mensagem');
+    mensagem.textContent = 'Enviando...';
+
+    const file = inputArquivo.files[0];
+    let arquivoUrl = null;
+
+    if (file) {
+      if (file.size > 7 * 1024 * 1024) {
+        mensagem.textContent = 'Arquivo muito grande. Limite de 7MB.';
+        return;
+      }
+      const nomeSanitizado = file.name
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-zA-Z0-9._-]/g, '_');
+      const nomeArquivo = `${Date.now()}_${nomeSanitizado}`;
+
+      const { error: uploadError } = await supabaseClient.storage
+        .from('curriculos-arquivos')
+        .upload(nomeArquivo, file);
+
+      if (uploadError) {
+        mensagem.textContent = 'Erro ao enviar o arquivo.';
+        return;
       }
 
-      botaoEnviar.style.display = completo ? 'inline-block' : 'none';
+      const { data: urlData } = supabaseClient.storage
+        .from('curriculos-arquivos')
+        .getPublicUrl(nomeArquivo);
+
+      arquivoUrl = urlData.publicUrl;
     }
 
-    inputArquivo.addEventListener('change', () => {
-      nomeArquivoSpan.textContent = inputArquivo.files[0]
-        ? inputArquivo.files[0].name
-        : 'Nenhum arquivo selecionado';
-      verificarCompletude();
-    });
-
-    Object.values(campos).forEach((campo) => {
-      campo.addEventListener('input', verificarCompletude);
-    });
-
-    document.getElementById('formCurriculo').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const mensagem = document.getElementById('mensagem');
-      mensagem.textContent = 'Enviando...';
-
-      const file = inputArquivo.files[0];
-      let arquivoUrl = null;
-
-      if (file) {
-        if (file.size > 7 * 1024 * 1024) {
-          mensagem.textContent = 'Arquivo muito grande. Limite de 7MB.';
-          return;
-        }
-
-        const nomeSanitizado = file.name
-          .normalize('NFD')
-          .replace(/[\u0300-\u036f]/g, '')
-          .replace(/[^a-zA-Z0-9._-]/g, '_');
-        const nomeArquivo = `${Date.now()}_${nomeSanitizado}`;
-        const { error: uploadError } = await supabaseClient.storage
-          .from('curriculos-arquivos')
-          .upload(nomeArquivo, file);
-
-        if (uploadError) {
-          mensagem.textContent = 'Erro ao enviar o arquivo.';
-          return;
-        }
-
-        const { data: urlData } = supabaseClient.storage
-          .from('curriculos-arquivos')
-          .getPublicUrl(nomeArquivo);
-
-        arquivoUrl = urlData.publicUrl;
-      }
-
-      const { error } = await supabaseClient.from('curriculos').insert({
+    const resposta = await fetch('https://supreme-lamp-wr9pg9pv6v6rfg4j4-3000.app.github.dev/api/curriculos', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
         nome: campos.nome.value,
         email: campos.email.value,
         telefone: campos.telefone.value || null,
         qualificacoes: campos.qualificacoes.value || null,
         experiencias: campos.experiencias.value || null,
         arquivo_url: arquivoUrl
-      });
-
-      mensagem.textContent = error
-        ? 'Erro ao enviar. Tente novamente.'
-        : 'Currículo enviado com sucesso!';
+      })
     });
-  </script>
+
+    const resultado = await resposta.json();
+    mensagem.textContent = resposta.ok ? resultado.mensagem : resultado.erro;
+  });
+</script>
 
 </body>
 </html>
