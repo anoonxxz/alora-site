@@ -53,7 +53,7 @@ app.post('/api/curriculos', async (req, res) => {
   res.status(201).json({ mensagem: 'Currículo cadastrado com sucesso!' });
 });
 
-app.get('/api/curriculos', async (req, res) => {
+app.get('/api/curriculos', verificarAutenticacao, async (req, res) => {
   const termo = req.query.busca;
 
   let query = supabase.from('curriculos').select('*');
