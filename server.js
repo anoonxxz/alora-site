@@ -12,6 +12,22 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_KEY
 );
 
+async function verificarAutenticacao(req, res, next) {
+  const authHeader = req.headers.authorization;
+  if (!authHeader) {
+    return res.status(401).json({ erro: 'Não autenticado.' });
+  }
+
+  const token = authHeader.replace('Bearer ', '');
+  const { data, error } = await supabase.auth.getUser(token);
+
+  if (error || !data.user) {
+    return res.status(401).json({ erro: 'Sessão inválida ou expirada.' });
+  }
+
+  next();
+}
+
 function validarCurriculo({ nome, email, telefone, qualificacoes, experiencias, arquivo_url }) {
   if (!nome || !email) {
     return 'Nome e e-mail são obrigatórios.';
