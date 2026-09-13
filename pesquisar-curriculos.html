@@ -35,8 +35,25 @@
 <script>
   const URL_SERVIDOR = 'https://alora-site.onrender.com';
 
+  const supabaseClient = window.supabase.createClient(
+    'https://nigarihewuqwahanxyxp.supabase.co',
+    'sb_publishable_8fx8zXBbMhz-9UtDp0iUOA_neN3cpIq'
+  );
+
   const listaCurriculos = document.getElementById('listaCurriculos');
   const mensagemBusca = document.getElementById('mensagemBusca');
+
+  let tokenAcesso = null;
+
+  async function verificarLogin() {
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    if (!session) {
+      window.location.href = 'login.html';
+      return false;
+    }
+    tokenAcesso = session.access_token;
+    return true;
+  }
 
   function renderizarCurriculos(curriculos) {
     listaCurriculos.innerHTML = '';
@@ -64,14 +81,22 @@
   }
 
   async function carregarTodos() {
-    const resposta = await fetch(`${URL_SERVIDOR}/api/curriculos`);
+    const resposta = await fetch(`${URL_SERVIDOR}/api/curriculos`, {
+      headers: { Authorization: `Bearer ${tokenAcesso}` }
+    });
+    if (resposta.status === 401) {
+      window.location.href = 'login.html';
+      return;
+    }
     const data = await resposta.json();
     renderizarCurriculos(data);
   }
 
   async function buscarCurriculos() {
     const termo = document.getElementById('campoBusca').value.trim();
-    const resposta = await fetch(`${URL_SERVIDOR}/api/curriculos?busca=${encodeURIComponent(termo)}`);
+    const resposta = await fetch(`${URL_SERVIDOR}/api/curriculos?busca=${encodeURIComponent(termo)}`, {
+      headers: { Authorization: `Bearer ${tokenAcesso}` }
+    });
     const data = await resposta.json();
     renderizarCurriculos(data);
   }
@@ -81,7 +106,10 @@
     if (e.key === 'Enter') buscarCurriculos();
   });
 
-  carregarTodos();
+  (async () => {
+    const logado = await verificarLogin();
+    if (logado) carregarTodos();
+  })();
 </script>
 
 </body>
