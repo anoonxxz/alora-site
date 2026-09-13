@@ -242,3 +242,66 @@ button:hover {
 .link-arquivo:hover {
   text-decoration: underline;
 }
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px 20px;
+  }
+
+  .nav-links {
+    flex-wrap: wrap;
+    gap: 14px;
+    width: 100%;
+  }
+
+  .nav-links a {
+    font-size: 13px;
+  }
+
+  .conteudo {
+    padding: 0 16px;
+    margin: 24px auto;
+  }
+
+  h1 {
+    font-size: 22px;
+  }
+
+  .card {
+    padding: 20px;
+  }
+
+  .busca {
+    flex-direction: column;
+  }
+
+  .busca button {
+    width: 100%;
+  }
+
+  .anexar-label {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar .logo {
+    font-size: 18px;
+  }
+
+  h1 {
+    font-size: 20px;
+  }
+
+  .card h2 {
+    font-size: 16px;
+  }
+
+  input, textarea, button {
+    font-size: 16px; 
+  }
+}
