@@ -43,6 +43,9 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+  document.getElementById('menuToggle').addEventListener('click', () => {
+  document.getElementById('navLinks').classList.toggle('aberto');
+});
   const URL_SERVIDOR = 'https://alora-site.onrender.com';
 
   const supabaseClient = window.supabase.createClient(

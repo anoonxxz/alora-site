@@ -72,6 +72,9 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+  document.getElementById('menuToggle').addEventListener('click', () => {
+  document.getElementById('navLinks').classList.toggle('aberto');
+});
   const supabaseClient = window.supabase.createClient(
     'https://nigarihewuqwahanxyxp.supabase.co',
     'sb_publishable_8fx8zXBbMhz-9UtDp0iUOA_neN3cpIq'
