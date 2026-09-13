@@ -32,27 +32,24 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script>
-    const supabaseClient = window.supabase.createClient(
-      'https://nigarihewuqwahanxyxp.supabase.co',
-      'sb_publishable_8fx8zXBbMhz-9UtDp0iUOA_neN3cpIq'
-    );
+<script>
+  const URL_SERVIDOR = 'https://supreme-lamp-wr9pg9pv6v6rfg4j4-3000.app.github.dev';
 
-    const listaCurriculos = document.getElementById('listaCurriculos');
-    const mensagemBusca = document.getElementById('mensagemBusca');
+  const listaCurriculos = document.getElementById('listaCurriculos');
+  const mensagemBusca = document.getElementById('mensagemBusca');
 
-    function renderizarCurriculos(curriculos) {
-      listaCurriculos.innerHTML = '';
+  function renderizarCurriculos(curriculos) {
+    listaCurriculos.innerHTML = '';
 
-      if (curriculos.length === 0) {
-        mensagemBusca.textContent = 'Nenhum currículo encontrado.';
+    if (curriculos.length === 0) {
+      mensagemBusca.textContent = 'Nenhum currículo encontrado.';
       return;
     }
 
     mensagemBusca.textContent = '';
 
     curriculos.forEach((c) => {
-    const item = document.createElement('div');
+      const item = document.createElement('div');
       item.className = 'item-curriculo';
       item.innerHTML = `
         <h3>${c.nome}</h3>
@@ -66,42 +63,26 @@
     });
   }
 
-    async function carregarTodos() {
-      const { data, error } = await supabaseClient.from('curriculos').select('*');
-      if (error) {
-        mensagemBusca.textContent = 'Erro ao carregar currículos.';
-        return;
-      }
-      renderizarCurriculos(data);
-    }
+  async function carregarTodos() {
+    const resposta = await fetch(`${URL_SERVIDOR}/api/curriculos`);
+    const data = await resposta.json();
+    renderizarCurriculos(data);
+  }
 
-    async function buscarCurriculos() {
-      const termo = document.getElementById('campoBusca').value.trim();
+  async function buscarCurriculos() {
+    const termo = document.getElementById('campoBusca').value.trim();
+    const resposta = await fetch(`${URL_SERVIDOR}/api/curriculos?busca=${encodeURIComponent(termo)}`);
+    const data = await resposta.json();
+    renderizarCurriculos(data);
+  }
 
-      if (termo === '') {
-        carregarTodos();
-        return;
-      }
+  document.getElementById('botaoBuscar').addEventListener('click', buscarCurriculos);
+  document.getElementById('campoBusca').addEventListener('keyup', (e) => {
+    if (e.key === 'Enter') buscarCurriculos();
+  });
 
-      const { data, error } = await supabaseClient
-        .from('curriculos')
-        .select('*')
-        .or(`nome.ilike.%${termo}%,email.ilike.%${termo}%,qualificacoes.ilike.%${termo}%`);
-
-      if (error) {
-        mensagemBusca.textContent = 'Erro ao buscar currículos.';
-        return;
-      }
-      renderizarCurriculos(data);
-    }
-
-    document.getElementById('botaoBuscar').addEventListener('click', buscarCurriculos);
-    document.getElementById('campoBusca').addEventListener('keyup', (e) => {
-      if (e.key === 'Enter') buscarCurriculos();
-    });
-
-    carregarTodos();
-  </script>
+  carregarTodos();
+</script>
 
 </body>
 </html>
