@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alora - Página Inicial</title>
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="home.html" class="logo">Alora</a>
+    <button class="menu-toggle" id="menuToggle">☰</button>
+    <div class="nav-links" id="navLinks">
+      <a href="home.html">🏠 Página Inicial</a>
+      <a href="#">✉️ Candidaturas</a>
+      <a href="index.html" class="botao-nav">Meu Currículo</a>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <h1>Bem-vindo ao Alora</h1>
+    <p>A plataforma que conecta candidatos e oportunidades, simplificando o gerenciamento de currículos e processos seletivos.</p>
+  </div>
+
+  <div class="conteudo">
+    <div class="feature-cards">
+      <div class="feature-card">
+        <h2>📎 Sou candidato</h2>
+        <p class="descricao">Cadastre seu currículo, anexe seus documentos e mantenha suas informações sempre atualizadas para futuras candidaturas.</p>
+        <a href="index.html" class="botao-card">Enviar meu currículo</a>
+      </div>
+
+      <div class="feature-card">
+        <h2>🔍 Sou diretoria/administrador</h2>
+        <p class="descricao">Acesse o banco de currículos, pesquise e filtre candidatos cadastrados na plataforma.</p>
+        <a href="login.html" class="botao-card botao-card-secundario">Acessar área restrita</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('menuToggle').addEventListener('click', () => {
+      document.getElementById('navLinks').classList.toggle('aberto');
+    });
+  </script>
+
+</body>
+</html>
