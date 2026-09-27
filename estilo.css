@@ -406,3 +406,76 @@ button:hover {
     font-size: 24px;
   }
 }
+
+.login-split {
+  display: flex;
+  min-height: 100vh;
+}
+
+.login-ilustracao {
+  flex: 1;
+  background: linear-gradient(135deg, #6f93fb, #2952e3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.logo-login {
+  color: white;
+  text-decoration: none;
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 24px;
+}
+
+.icone-cadeado {
+  font-size: 80px;
+  opacity: 0.85;
+}
+
+.login-form-painel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 60px;
+  background: white;
+}
+
+.login-form-painel h1 {
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+.login-form-painel .descricao {
+  margin-bottom: 32px;
+}
+
+.login-form-painel form {
+  gap: 18px;
+}
+
+.login-form-painel input {
+  padding: 16px;
+}
+
+@media (max-width: 768px) {
+  .login-split {
+    flex-direction: column;
+  }
+
+  .login-ilustracao {
+    padding: 40px 20px;
+    min-height: 160px;
+  }
+
+  .icone-cadeado {
+    font-size: 50px;
+  }
+
+  .login-form-painel {
+    padding: 32px 24px;
+  }
+}

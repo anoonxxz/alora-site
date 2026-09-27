@@ -8,23 +8,19 @@
 </head>
 <body>
 
-  <nav class="navbar">
-    <a href="home.html" class="logo">Alora</a>
-  </nav>
+  <div class="login-split">
+    <div class="login-ilustracao">
+      <a href="home.html" class="logo-login">Alora</a>
+      <div class="icone-cadeado">🔒</div>
+    </div>
 
-  <div class="conteudo">
-    <h1>Login — Diretoria/Administrador</h1>
-
-    <div class="card">
-      <p class="descricao">Acesso restrito à pesquisa de currículos.</p>
+    <div class="login-form-painel">
+      <h1>Login</h1>
+      <p class="descricao">Informe seus dados abaixo para entrar</p>
 
       <form id="formLogin">
-        <label for="email">E-mail</label>
-        <input type="email" id="email" required>
-
-        <label for="senha">Senha</label>
-        <input type="password" id="senha" required>
-
+        <input type="email" id="email" placeholder="E-mail" required>
+        <input type="password" id="senha" placeholder="Senha" required>
         <button type="submit">Entrar</button>
       </form>
 
