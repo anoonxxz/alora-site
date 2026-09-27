@@ -321,3 +321,88 @@ button:hover {
     font-size: 16px; 
   }
 }
+
+.navbar .logo {
+  text-decoration: none;
+}
+
+.hero {
+  background: linear-gradient(135deg, #2952e3, #1e3a8a);
+  color: white;
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.hero h1 {
+  color: white;
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+
+.hero p {
+  font-size: 15px;
+  color: #dbe4ff;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.feature-cards {
+  display: flex;
+  gap: 24px;
+  margin-top: -30px;
+}
+
+.feature-card {
+  background: white;
+  border-radius: 16px;
+  padding: 28px;
+  flex: 1;
+  box-shadow: 0 8px 24px rgba(30, 58, 138, 0.1);
+}
+
+.feature-card h2 {
+  color: #1e3a8a;
+  font-size: 18px;
+  margin-top: 0;
+}
+
+.botao-card {
+  display: inline-block;
+  margin-top: 10px;
+  background: #2952e3;
+  color: white;
+  text-decoration: none;
+  padding: 12px 22px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.botao-card:hover {
+  background: #1e3a8a;
+}
+
+.botao-card-secundario {
+  background: white;
+  color: #2952e3;
+  border: 2px solid #2952e3;
+}
+
+.botao-card-secundario:hover {
+  background: #eef2ff;
+}
+
+@media (max-width: 768px) {
+  .feature-cards {
+    flex-direction: column;
+    margin-top: 20px;
+  }
+
+  .hero {
+    padding: 40px 20px;
+  }
+
+  .hero h1 {
+    font-size: 24px;
+  }
+}
