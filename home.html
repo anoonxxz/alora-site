@@ -9,14 +9,15 @@
 <body>
 
   <nav class="navbar">
-    <a href="home.html" class="logo">Alora</a>
-    <button class="menu-toggle" id="menuToggle">☰</button>
-    <div class="nav-links" id="navLinks">
-      <a href="home.html">🏠 Página Inicial</a>
-      <a href="#">✉️ Candidaturas</a>
-      <a href="index.html" class="botao-nav">Meu Currículo</a>
-    </div>
-  </nav>
+  <a href="home.html" class="logo">Alora</a>
+  <button class="menu-toggle" id="menuToggle">☰</button>
+  <div class="nav-links" id="navLinks">
+    <a href="home.html">🏠 Página Inicial</a>
+    <a href="#">✉️ Candidaturas</a>
+    <a href="index.html" class="botao-nav">Meu Currículo</a>
+    <span id="areaUsuario"></span>
+  </div>
+</nav>
 
   <div class="hero">
     <h1>Bem-vindo ao Alora</h1>
@@ -44,6 +45,26 @@
       document.getElementById('navLinks').classList.toggle('aberto');
     });
   </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const supabaseClient = window.supabase.createClient(
+    'https://nigarihewuqwahanxyxp.supabase.co',
+    'sb_publishable_8fx8zXBbMhz-9UtDp0iUOA_neN3cpIq'
+  );
+
+  (async () => {
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    const areaUsuario = document.getElementById('areaUsuario');
+
+    if (session) {
+      const nome = session.user.user_metadata?.nome || session.user.email;
+      areaUsuario.innerHTML = `🔔 Olá, ${nome.split(' ')[0]}`;
+    } else {
+      areaUsuario.innerHTML = `<a href="login.html">Entrar</a>`;
+    }
+  })();
+</script>
 
 </body>
 </html>

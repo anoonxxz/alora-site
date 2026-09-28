@@ -479,3 +479,19 @@ button:hover {
     padding: 32px 24px;
   }
 }
+
+.link-secundario {
+  text-align: center;
+  font-size: 13px;
+  margin-top: 16px;
+}
+
+.link-secundario a {
+  color: #2952e3;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.link-secundario a:hover {
+  text-decoration: underline;
+}
