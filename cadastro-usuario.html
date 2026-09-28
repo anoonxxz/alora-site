@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alora - Criar Conta</title>
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+
+  <div class="login-split">
+    <div class="login-ilustracao">
+      <a href="home.html" class="logo-login">Alora</a>
+      <div class="icone-cadeado">👤</div>
+    </div>
+
+    <div class="login-form-painel">
+      <h1>Cadastro</h1>
+      <p class="descricao">Informe seus dados abaixo para criar sua conta</p>
+
+      <form id="formCadastroUsuario">
+        <input type="text" id="nomeUsuario" placeholder="Nome completo" required>
+        <input type="email" id="emailUsuario" placeholder="E-mail" required>
+        <input type="text" id="cpfUsuario" placeholder="CPF" required>
+        <input type="password" id="senhaUsuario" placeholder="Senha" required minlength="6">
+        <input type="password" id="confirmarSenha" placeholder="Digite a senha novamente" required>
+
+        <button type="submit">Criar conta</button>
+      </form>
+
+      <p id="mensagemCadastro"></p>
+      <p class="link-secundario"><a href="login.html">Já tenho conta — fazer login</a></p>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const supabaseClient = window.supabase.createClient(
+      'https://nigarihewuqwahanxyxp.supabase.co',
+      'sb_publishable_8fx8zXBbMhz-9UtDp0iUOA_neN3cpIq'
+    );
+
+    document.getElementById('formCadastroUsuario').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const mensagem = document.getElementById('mensagemCadastro');
+
+      const senha = document.getElementById('senhaUsuario').value;
+      const confirmar = document.getElementById('confirmarSenha').value;
+
+      if (senha !== confirmar) {
+        mensagem.textContent = 'As senhas não coincidem.';
+        return;
+      }
+
+      mensagem.textContent = 'Criando conta...';
+
+      const { error } = await supabaseClient.auth.signUp({
+        email: document.getElementById('emailUsuario').value,
+        password: senha,
+        options: {
+          data: {
+            nome: document.getElementById('nomeUsuario').value,
+            cpf: document.getElementById('cpfUsuario').value
+          }
+        }
+      });
+
+      if (error) {
+        mensagem.textContent = 'Erro ao criar conta: ' + error.message;
+        return;
+      }
+
+      mensagem.textContent = 'Conta criada com sucesso! Redirecionando...';
+      setTimeout(() => window.location.href = 'login.html', 1500);
+    });
+  </script>
+
+</body>
+</html>
